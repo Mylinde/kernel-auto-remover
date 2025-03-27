@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [ -f /var/local/kernel-temp/old_kernel_version ]; then
+    OLD_KERNEL=$(cat /var/local/kernel-temp/old_kernel_version)
+    rm /var/local/kernel-temp/old_kernel_version
+
+    # Aktuelle Kernelversion ermitteln
+    CURRENT_KERNEL=$(uname -r)
+
+    # Hauptversionen der Kernelversionen extrahieren
+    CURRENT_MAJOR=$(echo "$CURRENT_KERNEL" | cut -d'.' -f1-2)
+    OLD_MAJOR=$(echo "$OLD_KERNEL" | cut -d'.' -f1-2)
+
+    # Wenn die Hauptversionen übereinstimmen
+    if [ "$CURRENT_MAJOR" = "$OLD_MAJOR" ]; then
+        # Kernel-Image und Header entfernen
+        apt-get -y purge linux-image-$OLD_KERNEL linux-headers-$OLD_KERNEL
+    else
+        echo "Der zu entfernende Kernel hat eine andere Hauptversion als der aktive Kernel."
+    fi
+fi

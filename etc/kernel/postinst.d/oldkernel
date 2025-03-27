@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Aktuelle Kernelversion ermitteln
+CURRENT_KERNEL=$(uname -r)
+echo "$CURRENT_KERNEL"
+
+# Kernelversion des zu installierenden Pakets ermitteln
+NEW_KERNEL=$1
+echo "$NEW_KERNEL"
+
+# Hauptversionen der Kernelversionen extrahieren
+CURRENT_MAJOR=$(echo "$CURRENT_KERNEL" | cut -d'.' -f1-2)
+NEW_MAJOR=$(echo "$NEW_KERNEL" | cut -d'.' -f1-2)
+
+# Wenn die Hauptversionen übereinstimmen und die neue Version höher ist
+if [ "$CURRENT_MAJOR" = "$NEW_MAJOR" ] && [ "$NEW_KERNEL" \> "$CURRENT_KERNEL" ]; then
+    # Den zu deinstallierenden Kernel in einer Datei speichern
+    mkdir -p /var/local/kernel-temp
+    echo "$CURRENT_KERNEL" > /var/local/kernel-temp/old_kernel_version
+fi

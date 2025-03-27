@@ -1,0 +1,12 @@
+[Unit]
+Description=Entfernen des alten Kernels nach dem Booten
+After=graphical.target
+
+[Service]
+User=root
+ExecStart=/usr/local/bin/remove-old-kernel
+Restart=on-failure
+RemainAfterExit=true
+
+[Install]
+WantedBy=boot-complete.target
