@@ -1,0 +1,21 @@
+#!/bin/fish
+
+if test -f /var/local/kernel-temp/old_kernel_version
+    set OLD_KERNEL (cat /var/local/kernel-temp/old_kernel_version)
+    rm /var/local/kernel-temp/old_kernel_version
+
+    # Aktuelle Kernelversion ermitteln
+    set CURRENT_KERNEL (uname -r)
+
+    # Hauptversionen der Kernelversionen extrahieren
+    set CURRENT_MAJOR (echo $CURRENT_KERNEL | string split '.'  -f1,2 | string join '')
+    set OLD_MAJOR (echo $OLD_KERNEL | string split '.'  -f1,2 | string join '')
+
+    # Wenn die Hauptversionen übereinstimmen
+    if test $CURRENT_MAJOR -eq $OLD_MAJOR
+        # Kernel-Image und Header entfernen
+        apt-get -y purge linux-image-$OLD_KERNEL linux-headers-$OLD_KERNEL
+    else
+        echo Der zu entfernende Kernel hat eine andere Hauptversion als der aktive Kernel.
+    end
+end
