@@ -1,5 +1,5 @@
 [Unit]
-Description=Entfernen des alten Kernels nach dem Booten
+Description=Removing the old kernel after booting
 After=boot-complete.target
 
 [Service]
