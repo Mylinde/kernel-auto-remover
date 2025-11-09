@@ -14,7 +14,7 @@ if [ -f /var/local/kernel-temp/old_kernel_version ]; then
     # If the major versions match
     if [ "$CURRENT_MAJOR" = "$OLD_MAJOR" ]; then
         # Remove kernel image and header
-        apt-get -y purge linux-image-$OLD_KERNEL linux-headers-$OLD_KERNEL
+        apt-get -y purge linux-image-"$OLD_KERNEL" linux-headers-"$OLD_KERNEL"
     else
         echo "The kernel to be removed has a different major version than the active kernel."
     fi
